@@ -6,7 +6,7 @@
 function sortear() {
     const dezenas = [];
     while (dezenas.length < 6) {
-        const numeroSorteado = Math.floor((Math.random() * 59) + 1);
+        const numeroSorteado = Math.round((Math.random() * 59) + 1);
         if (!dezenas.includes(numeroSorteado)) {
             dezenas.push(numeroSorteado);
         }
