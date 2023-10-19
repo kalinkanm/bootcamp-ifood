@@ -31,21 +31,21 @@ function gerenciadorDeTarefas() {
             adicionarTarefas();
             break;
         case "2":
-            editarTarefa(); // EM ANDAMENTO
+            editarTarefa();
             break;
         case "3":
-            console.log('Falta função 3 Remover uma tarefa'); // EM ANDAMENTO
+            removerTarefa();
             break;
         case "4":
             listarTarefas();
             break;
         case "5":
-            console.log("Falta função 5 Ver uma tarefa específica"); // EM ANDAMENTO
+            procurarTarefa();
             break;
         case "6":
             break;
         default:
-            console.log("Não entendi.");
+            console.log("Opção inválida!");
             gerenciadorDeTarefas();
             break;
     }
@@ -60,31 +60,41 @@ function adicionarTarefas() {
     }
     tarefas.push(tarefa);
     console.log(`Tarefa ${tarefa.descricao} com id ${tarefa.id} foi adicionada.`);
-    prompt(`ENTER para voltar ao menu principal`);
 
+    prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
 
 function editarTarefa() {
-    console.log(tarefas);
     const tarefaParaEditar = prompt(`Qual o id da tarefa que você quer editar?`);
     const novaDescricao = prompt(`Digite a nova descrição: `);
 
-    // for (let i = 0; i < tarefas.length; i++) {
-    //     if (tarefas[i].id === tarefaParaEditar) {
-    //         tarefas[i].descricao = novaDescricao;
-    //     }
-        
-    // }
-
-    for (tarefa of tarefas) {
-        if (tarefa.id === tarefaParaEditar) {
+    for (let tarefa of tarefas) {
+        if (tarefa.id === parseInt(tarefaParaEditar)) {
             tarefa.descricao = novaDescricao;
         } else {
             console.log("id inválido");
         }
     }
     console.log("Item editado com sucesso!");
+
+    prompt(`ENTER para voltar ao menu principal`);
+    gerenciadorDeTarefas();
+}
+
+function removerTarefa() {
+    const idParaRemover = prompt(`Qual o id da tarefa que você quer remover?`);
+
+    for (let tarefa of tarefas) {
+        if (tarefa.id === parseInt(idParaRemover)) {
+            let index = tarefas.indexOf(tarefa)
+            tarefas.splice(index, 1)
+        } else {
+            console.log("id inválido");
+        }
+    }
+    console.log("Item removido com sucesso!");
+
     prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
@@ -92,10 +102,36 @@ function editarTarefa() {
 function listarTarefas() {
     console.log(`LISTA DE TAREFAS`);
     console.log(tarefas);
-    prompt(`ENTER para voltar ao menu principal`);
 
+    prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
 
+
+function procurarTarefa() {
+    let idParaProcurar = prompt(`Qual o id da tarefa que você quer procurar?`);
+
+    if (parseInt(idParaProcurar) !== NaN) {
+
+        for (let tarefa of tarefas) {
+            if (tarefa.id === parseInt(idParaProcurar)) {
+                console.log(tarefa);
+            }
+        }
+
+    }
+
+    // else if ( typeof(idParaProcurar) === typeof('sasaas')){
+    //     for (let tarefa of tarefas) {
+    //         if (tarefa.descricao === idParaProcurar.toString()) {
+    //             console.log(tarefa);
+    //         } 
+    //     }
+
+    // }
+
+    prompt(`ENTER para voltar ao menu principal`);
+    gerenciadorDeTarefas();
+}
 
 gerenciadorDeTarefas();
