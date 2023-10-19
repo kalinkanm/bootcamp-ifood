@@ -31,16 +31,16 @@ function gerenciadorDeTarefas() {
             adicionarTarefas();
             break;
         case "2":
-            console.log("2");
+            editarTarefa(); // EM ANDAMENTO
             break;
         case "3":
-            console.log('3');
+            console.log('Falta função 3 Remover uma tarefa'); // EM ANDAMENTO
             break;
         case "4":
             listarTarefas();
             break;
         case "5":
-            console.log("5");
+            console.log("Falta função 5 Ver uma tarefa específica"); // EM ANDAMENTO
             break;
         case "6":
             break;
@@ -49,9 +49,6 @@ function gerenciadorDeTarefas() {
             gerenciadorDeTarefas();
             break;
     }
-
-
-
 
 }
 
@@ -65,6 +62,30 @@ function adicionarTarefas() {
     console.log(`Tarefa ${tarefa.descricao} com id ${tarefa.id} foi adicionada.`);
     prompt(`ENTER para voltar ao menu principal`);
 
+    gerenciadorDeTarefas();
+}
+
+function editarTarefa() {
+    console.log(tarefas);
+    const tarefaParaEditar = prompt(`Qual o id da tarefa que você quer editar?`);
+    const novaDescricao = prompt(`Digite a nova descrição: `);
+
+    // for (let i = 0; i < tarefas.length; i++) {
+    //     if (tarefas[i].id === tarefaParaEditar) {
+    //         tarefas[i].descricao = novaDescricao;
+    //     }
+        
+    // }
+
+    for (tarefa of tarefas) {
+        if (tarefa.id === tarefaParaEditar) {
+            tarefa.descricao = novaDescricao;
+        } else {
+            console.log("id inválido");
+        }
+    }
+    console.log("Item editado com sucesso!");
+    prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
 
