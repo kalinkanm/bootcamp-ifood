@@ -109,26 +109,23 @@ function listarTarefas() {
 
 
 function procurarTarefa() {
-    let idParaProcurar = prompt(`Qual o id da tarefa que você quer procurar?`);
+    let idParaProcurar = prompt(`Qual a tarefa que você quer procurar?`);
 
-    if (parseInt(idParaProcurar) !== NaN) {
-
+    if (!isNaN(parseInt(idParaProcurar))) {
         for (let tarefa of tarefas) {
             if (tarefa.id === parseInt(idParaProcurar)) {
                 console.log(tarefa);
             }
         }
 
+    } else {
+        console.log("else");
+        for (let tarefa of tarefas) {
+            if (tarefa.descricao === idParaProcurar.toString()) {
+                console.log(tarefa);
+            }
+        }
     }
-
-    // else if ( typeof(idParaProcurar) === typeof('sasaas')){
-    //     for (let tarefa of tarefas) {
-    //         if (tarefa.descricao === idParaProcurar.toString()) {
-    //             console.log(tarefa);
-    //         } 
-    //     }
-
-    // }
 
     prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
