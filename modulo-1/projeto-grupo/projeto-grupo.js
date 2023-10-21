@@ -19,6 +19,7 @@ const opcoes = `Opções:
 const prompt = require("prompt-sync")();
 
 const tarefas = [];
+// const tarefas = [{ id: 1, descricao: 'a' }, { id: 2, descricao: 'b' }];
 let indice = 0;
 
 function gerenciadorDeTarefas() {
@@ -74,6 +75,7 @@ function editarTarefa() {
             tarefa.descricao = novaDescricao;
         } else {
             console.log("id inválido");
+            break;
         }
     }
     console.log("Item editado com sucesso!");
@@ -91,6 +93,7 @@ function removerTarefa() {
             tarefas.splice(index, 1)
         } else {
             console.log("id inválido");
+            break;
         }
     }
     console.log("Item removido com sucesso!");
@@ -119,10 +122,12 @@ function procurarTarefa() {
         }
 
     } else {
-        console.log("else");
         for (let tarefa of tarefas) {
             if (tarefa.descricao === idParaProcurar.toString()) {
                 console.log(tarefa);
+            } else {
+                console.log("Tarefa não encontrada!");
+                break;
             }
         }
     }
