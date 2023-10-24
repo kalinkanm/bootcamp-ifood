@@ -18,16 +18,15 @@ const opcoes = `Opções:
 
 const prompt = require("prompt-sync")();
 
-const tarefas = [];
-// const tarefas = [{ id: 1, descricao: 'a' }, { id: 2, descricao: 'b' }];
-let indice = 0;
+let tarefas = [];
+let contador = 0;
 
 function gerenciadorDeTarefas() {
     console.log(opcoes);
 
-    const acao = prompt("O que você deseja fazer? ");
+    const opcao = prompt("O que você deseja fazer? ");
 
-    switch (acao) {
+    switch (opcao) {
         case "1":
             adicionarTarefas();
             break;
@@ -54,10 +53,10 @@ function gerenciadorDeTarefas() {
 }
 
 function adicionarTarefas() {
-    const novaTarefa = prompt("Que tarefa você quer adicionar? ");
+    const descricao = prompt("Que tarefa você quer adicionar? ");
     const tarefa = {
-        id: ++indice,
-        descricao: novaTarefa,
+        id: ++contador,
+        descricao,
     }
     tarefas.push(tarefa);
     console.log(`Tarefa ${tarefa.descricao} com id ${tarefa.id} foi adicionada.`);
@@ -66,37 +65,36 @@ function adicionarTarefas() {
     gerenciadorDeTarefas();
 }
 
+function encontrarTarefa (idDigitado) {
+    return tarefas.findIndex((tarefa) => tarefa.id === idDigitado);
+}
+
 function editarTarefa() {
-    const tarefaParaEditar = prompt(`Qual o id da tarefa que você quer editar?`);
-    const novaDescricao = prompt(`Digite a nova descrição: `);
+    const idDigitado = +prompt(`Qual o id da tarefa que você quer editar? `);
+    const posicaoDaTarefaParaEditar = encontrarTarefa(idDigitado);
 
-    for (let tarefa of tarefas) {
-        if (tarefa.id === parseInt(tarefaParaEditar)) {
-            tarefa.descricao = novaDescricao;
-        } else {
-            console.log("id inválido");
-            break;
-        }
+    if (posicaoDaTarefaParaEditar < 0) {
+        console.error('Tarefa não encontrada');
+    } else {
+        const novaDescricao = prompt(`Digite a nova descrição: `);
+
+        tarefas[posicaoDaTarefaParaEditar].descricao = novaDescricao;
+        console.log("Item editado com sucesso!");
     }
-    console.log("Item editado com sucesso!");
-
     prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
 
 function removerTarefa() {
-    const idParaRemover = prompt(`Qual o id da tarefa que você quer remover?`);
+    const idDigitado = +prompt(`Qual o id da tarefa que você quer remover? `);
+    const posicaoDaTarefaParaRemover = encontrarTarefa(idDigitado);
 
-    for (let tarefa of tarefas) {
-        if (tarefa.id === parseInt(idParaRemover)) {
-            let index = tarefas.indexOf(tarefa)
-            tarefas.splice(index, 1)
-        } else {
-            console.log("id inválido");
-            break;
-        }
+    if (posicaoDaTarefaParaRemover < 0) {
+        console.error('Tarefa não encontrada');
+    } else {
+        tarefas = tarefas.filter((tarefa) => tarefa.id !== idDigitado);
+        console.log("Item removido com sucesso!");
     }
-    console.log("Item removido com sucesso!");
 
     prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
@@ -110,28 +108,29 @@ function listarTarefas() {
     gerenciadorDeTarefas();
 }
 
-
 function procurarTarefa() {
-    let idParaProcurar = prompt(`Qual a tarefa que você quer procurar?`);
+    let tarefa;
+    const opcao = prompt(`Buscar por: (1) Id ou (2) Descrição? `);
 
-    if (!isNaN(parseInt(idParaProcurar))) {
-        for (let tarefa of tarefas) {
-            if (tarefa.id === parseInt(idParaProcurar)) {
-                console.log(tarefa);
-            }
-        }
-
-    } else {
-        for (let tarefa of tarefas) {
-            if (tarefa.descricao === idParaProcurar.toString()) {
-                console.log(tarefa);
-            } else {
-                console.log("Tarefa não encontrada!");
-                break;
-            }
-        }
+    switch (opcao) {
+        case "1":
+            const id = +prompt("Digite o id da tarefa: ");
+            tarefa = tarefas.find((tarefa) => tarefa.id === id);
+            break;
+        case "2":
+            const descricao = prompt("Digite a descricao da tarefa: ");
+            tarefa = tarefas.find((tarefa) => tarefa.descricao === descricao);
+            break;
+        default:
+            console.error("Opção inválida");
+            procurarTarefa();
     }
 
+    if (tarefa) {
+        console.log(tarefa);
+    } else {
+        console.error("Tarefa não encontrada");
+    }
     prompt(`ENTER para voltar ao menu principal`);
     gerenciadorDeTarefas();
 }
