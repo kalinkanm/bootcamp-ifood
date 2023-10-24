@@ -1,39 +1,45 @@
+function buscarNovidades() {
+    return [
+        { modelo: "Mastodon Cabine Plus 1.3 2024", preco: 195900, cor: "preto" },
+        { modelo: "Wintersun Drive 1.4 Flex 2023", preco: 104900, cor: "branco" },
+        { modelo: "Radogost 1.0 Flex 4P 2023", preco: 77500, cor: "preto" }
+    ];
+}
+
+function buscarMaisVendidos() {
+    return [
+        { modelo: "Gojira", preco: 127000 },
+        { modelo: "Savatage", preco: 92000 }
+    ]
+}
 
 function montarCorpoEmail(nome) {
-    const novos = [
-        { modelo: "Nova Mastodon Cabine Plus 1.3 2024", preco: "195.900,00", cor: "preto" },
-        { modelo: "Wintersun Drive 1.4 Flex 2023", preco: "104.900,00", cor: "branco" }
-    ];
 
-    const maisVendidos = ["Gojira, o SUV superesportivo, por apenas R$ 127.000,00",
-        "Savatage, motor Turbo de verdade, por apenas R$ 92.000,00"];
+    const novos = buscarNovidades().reduce((previous, current) => {
+        const mensagem = `- ${current.modelo} por apenas ${current.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} (${current.cor})`;
+        return `${previous}
+        ${mensagem}`
+    }, '');
 
-    console.log(`       Olá, ${nome}! Confira as novidades desta semana!`);
+    const maisVendidos = buscarMaisVendidos().reduce((previous, current) => {
+        const mensagem = `- ${current.modelo} a partir de ${current.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+        return `${previous}
+        ${mensagem}`
+    }, '');
 
-    // novos veículos 
-    console.log(`
-    Venha conhecer os novos veículos disponíveis na loja:`);
-    for (const carro of novos) {
-        console.log(`- ${carro.modelo} por apenas R$ ${carro.preco} (${carro.cor})`);
-    }
+    const corpo = `
+           Olá, ${nome}! Confira as novidades desta semana!
 
-    // mais vendidos 
-    console.log(`
-    Os queridinhos: veja os mais vendidos!
-- ${maisVendidos[0]}
-- ${maisVendidos[1]}`);
+        Venha conhecer os novos veículos disponíveis na loja: ${novos}
+           
+        Os queridinhos: veja os mais vendidos! ${maisVendidos}
 
-    // condições para aquisição
-    console.log(`
-    Temos as melhores condições de aquisição:
-- Financiamento em até 60x
-- Bônus de até R$ 5 mil na troca pelo seu usado`);
-
-    console.log(`
-CarStore: a sua escolha em automóveis. 
-Av. do Colono, 666. (54) 6666 6666`);
+        Temos as melhores condições de aquisição:
+        - Financiamento em até 60x
+        - Bônus de até R$ 15 mil na troca pelo seu usado
+           `
+return corpo;
 
 }
-// montarCorpoEmail("Kalinka");
 
 module.exports = montarCorpoEmail
