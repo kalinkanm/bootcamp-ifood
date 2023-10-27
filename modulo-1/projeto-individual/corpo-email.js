@@ -42,4 +42,4 @@ return corpo;
 
 }
 
-module.exports = montarCorpoEmail
+module.exports = montarCorpoEmail;
