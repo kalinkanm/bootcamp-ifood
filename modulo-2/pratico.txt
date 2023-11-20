@@ -1,0 +1,37 @@
+Criação de Classe e Instância:
+•Crie uma classe Carro com propriedades como modelo, ano e cor.
+•Instancie dois objetos dessa classe com diferentes valores.
+•Imprima no console os detalhes de cada carro.
+
+Herança e Polimorfismo:
+•Crie uma classe base chamada Animal com métodos como emitirSom e mover.
+•Derive duas classes, Cachorro e Pássaro, que herdam da classe Animal.
+•Sobrescreva o método emitirSom em ambas as classes derivadas.
+•Crie instâncias de Cachorro e Pássaro e chame seus métodos.
+
+Encapsulamento e Métodos Estáticos:
+•Crie uma classe Calculadora com métodos de operações matemáticas (soma, subtração, multiplicação, divisão).
+•Encapsule as operações matemáticas, permitindo apenas o acesso através dos métodos da classe.
+•Adicione um método estático que retorna o valor absoluto de um número.
+
+Interfaces e Implementação:
+•Crie uma interface FormaGeometrica com métodos como calcularArea e calcularPerimetro.
+•Implemente a interface em classes como Quadrado e Círculo.
+•Instancie objetos dessas classes e chame seus métodos.
+
+Composição de Objetos:
+•Crie uma classe Motor com métodos como ligar e desligar.
+•Em seguida, crie uma classe Carro que possui uma instância de Motor.
+•Implemente métodos em Carro que delegam chamadas aos métodos correspondentes em Motor.
+•Teste a funcionalidade ligando e desligando o carro.
+
+Tratamento de Exceções:
+•Crie uma classe ContaBancaria com propriedades como saldo e métodos como sacar e depositar.
+•Implemente uma verificação para garantir que o saldo não fique negativo após um saque.
+•Utilize exceções para lidar com situações em que o saque não pode ser realizado devido a saldo insuficiente.
+•Teste a classe com casos que resultem em exceções.
+
+Padrões de Projeto: Singleton:
+•Implemente uma classe ConfiguracaoApp usando o padrão Singleton, garantindo que exista apenas uma instância dessa classe.
+•Adicione propriedades de configuração à classe e métodos para acessá-las.
+•Tente criar várias instâncias da classe e verifique se todas se referem à mesma instância.
