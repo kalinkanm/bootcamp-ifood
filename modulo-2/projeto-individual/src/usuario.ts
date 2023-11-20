@@ -1,19 +1,24 @@
+import { Livro } from "./livro";
+
 const fs = require("fs");
 
 export class Usuario {
     private _nome: string
     private _email: string
-    private _livrosEmprestados: Array<object>
+    private _dataNascimento: string
 
-    constructor(nome: string, email: string) {
-        this._nome = nome
-        this._email = email
-        this._livrosEmprestados = []
-
+    constructor(novoUsuario: TCriarUsuario) {
+        this._nome = novoUsuario.nome
+        this._email = novoUsuario.email
+        this._dataNascimento = novoUsuario.dataNascimento
     }
 
-    adicionarUsuario() {
-        const usuarios: Array<any> = JSON.parse(fs.readFileSync("./src/dados/usuarios.json", "utf-8"));
+    static buscarUsuarios(): Array<TUsuario> {
+        return JSON.parse(fs.readFileSync("./src/dados/usuarios.json", "utf-8"));
+    }
+
+    adicionarUsuario(): void {
+        const usuarios = Usuario.buscarUsuarios();
 
         if (Usuario.buscarUsuarioPorEmail(this._email)) {
             console.error("E-mail já cadastrado!")
@@ -22,29 +27,31 @@ export class Usuario {
 
         usuarios.push({
             nome: this._nome,
-            email: this._email
+            email: this._email,
+            dataNascimento: this._dataNascimento
         })
         fs.writeFileSync("./src/dados/usuarios.json", JSON.stringify(usuarios))
 
     }
 
-    static buscarUsuarioPorEmail(email: string) {
-        const usuarios: Array<any> = JSON.parse(fs.readFileSync("./src/dados/usuarios.json", "utf-8"));
+    static buscarUsuarioPorEmail(email: string): TUsuario | undefined {
+        const usuarios = Usuario.buscarUsuarios();
         return usuarios.find(usuario => usuario.email === email)
-
     }
 
-    static listarUsuarios() {
+    static listarUsuarios(): void {
         const usuarios = fs.readFileSync("./src/dados/usuarios.json", "utf-8")
         console.log(JSON.parse(usuarios));
     }
 
-    retirarLivro() {
-
+    static removerUsuario(email: string): void {
+        const usuarios = Usuario.buscarUsuarios().filter(usuario => usuario.email !== email);
+        fs.writeFileSync("./src/dados/usuarios.json", JSON.stringify(usuarios))
     }
 
-    devolverLivro() {
-
+    static verReservasDoUsuario(email: string): void {
+        const livros = Livro.buscarLivros().filter(livro => livro.reservadoPor === email);
+        console.log(livros);
     }
 
 }

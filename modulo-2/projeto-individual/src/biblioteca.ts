@@ -2,27 +2,32 @@ import { Livro } from "./livro";
 import { Autor } from "./autor";
 import { Usuario } from "./usuario";
 
-const fs = require("fs");
 const prompt = require("prompt-sync")();
 
 export class Biblioteca {
     menu() {
-        // const opcao = prompt(`
-        //     1 - Adicionar autores
-        //     2 - Ver autores
-        //     3 - Adicionar livros
-        //     4 - Remover livros
-        //     5 - Buscar livro por autor
-        //     6 - Ver catálogo
-        //     7 - Adicionar usuário
-        //     8 - Remover usuário
-        //     9 - Ver usuários 
-        //     10 - Listar livros emprestados
-        //     11 - Retirar livro
-        //     12 - Devolver livro
-        //     `)
+        console.log(`
+        0 - Sair
+        1 - Adicionar autores
+        2 - Ver autores
+        3 - Adicionar livros
+        4 - Remover livros
+        5 - Buscar livro por autor
+        6 - Ver catálogo
+        7 - Adicionar usuário
+        8 - Remover usuário
+        9 - Ver usuários 
+        10 - Listar livros emprestados
+        11 - Retirar livro
+        12 - Devolver livro
+        `)
+
         const opcao = prompt("Escolha uma opção: ")
+        let sair = false;
         switch (opcao) {
+            case "0":
+                sair = true;
+                break;
             case "1":
                 this.adicionarAutor();
                 break;
@@ -31,6 +36,9 @@ export class Biblioteca {
                 break;
             case "3":
                 this.adicionarLivro();
+                break;
+            case "4":
+                this.removerLivro();
                 break;
             case "5":
                 this.listarLivrosPorAutor();
@@ -41,41 +49,57 @@ export class Biblioteca {
             case "7":
                 this.adicionarUsuario();
                 break;
+            case "8":
+                this.removerUsuario();
+                break;
             case "9":
                 this.listarUsuarios();
                 break;
-
+            case "10":
+                this.verReservasDoUsuario();
+                break;
+            case "11":
+                this.reservarLivro();
+                break;
+            case "12":
+                this.devolverLivro();
+                break;
         }
 
-        // 1 Adicionar autores -ok
-        // 2 Ver autores -ok
-        // 3 Adicionar livros -ok
-        // 4 Remover livros (alterar status)
-        // 5 Buscar livro por autor -ok
-        // 6 Ver catálogo -ok
-        // 7 Adicionar usuário -ok
-        // 8 Remover usuário (alterar status)
-        // 9 Ver usuários -ok
-        // 10 Listar livros emprestados
-        // 11 Retirar livro
-        // 12 Devolver livro
+        if (!sair) {
+            prompt("Pressione ENTER para continuar")
+
+            this.menu()
+        };
 
     }
 
     adicionarAutor() {
         const nome = prompt("Digite o nome do autor: ")
-        const dataNascimento = new Date(prompt("Digite a data de nascimento do autor: "))
+        const dataNascimento = prompt("Digite a data de nascimento do autor: ")
         const nacionalidade = prompt("Digite a nacionalidade do autor: ")
 
-        const novoAutor = new Autor(nome, dataNascimento, nacionalidade);
+        const novoAutor = new Autor({ nome, dataNascimento, nacionalidade });
 
         novoAutor.adicionarAutor()
-        this.menu()
+
     }
 
     listarAutores() {
         Autor.listarAutores()
-        this.menu()
+
+    }
+
+    reservarLivro() {
+        const titulo = prompt("Digite o título do livro: ");
+        const email = prompt("Digite o seu email cadastrado: ");
+
+        Livro.reservarLivro(titulo, email);
+    }
+
+    devolverLivro() {
+        const titulo = prompt("Digite o título do livro: ");
+        Livro.devolverLivro(titulo);
     }
 
     adicionarLivro() {
@@ -90,39 +114,51 @@ export class Biblioteca {
         const anoPublicacao = prompt("Digite o ano de publicação: ");
         const genero = prompt("Digite o gênero literário do livro: ");
 
-        const novoLivro = new Livro(titulo, autor, anoPublicacao, genero);
+        const novoLivro = new Livro({ titulo, autor, anoPublicacao, genero });
 
         novoLivro.adicionarLivro()
-        this.menu()
+
+    }
+
+    removerLivro() {
+        const titulo = prompt("Digite o título do livro: ");
+        Livro.removerLivro(titulo);
+    }
+
+    removerUsuario() {
+        const email = prompt("Digite o email do usuario: ");
+        Usuario.removerUsuario(email)
     }
 
     listarLivrosPorAutor() {
         const autor = prompt("Digite o autor do livro: ");
         Livro.listarLivroPorAutor(autor)
-        this.menu()
+
     }
 
     listarLivros() {
         Livro.listarLivros()
-        this.menu()
+
     }
 
     adicionarUsuario() {
         const nome = prompt("Digite o nome do usuário: ")
         const email = prompt("Digite o e-mail do usuário: ")
+        const dataNascimento = prompt("Digite a data de nascimento do usuário: ")
 
-        const novoUsuario = new Usuario(nome, email);
+        const novoUsuario = new Usuario({ nome, email, dataNascimento });
 
         novoUsuario.adicionarUsuario()
-        this.menu()
+
     }
 
     listarUsuarios() {
         Usuario.listarUsuarios()
-        this.menu()
+
+    }
+
+    verReservasDoUsuario() {
+        const email = prompt("Digite o e-mail do usuário: ");
+        Usuario.verReservasDoUsuario(email);
     }
 }
-
-// // const autor1 = new Autor("Bram Stoker", new Date("1847/11/08"), "irlandês")
-// // const livro1 = new Livro("Dracula", autor1, "1897", "terror");
-// // const usuario1 = new Usuario("Kalinka", "kali@kali.com")

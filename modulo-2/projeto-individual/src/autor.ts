@@ -2,17 +2,21 @@ const fs = require("fs");
 
 export class Autor {
     private _nome: string
-    private _dataNascimento: Date
+    private _dataNascimento: string
     private _nacionalidade: string
 
-    constructor(nome: string, dataNascimento: Date, nacionalidade: string) {
-        this._nome = nome
-        this._dataNascimento = dataNascimento
-        this._nacionalidade = nacionalidade
+    constructor(novoAutor: TCriarAutor) {
+        this._nome = novoAutor.nome
+        this._dataNascimento = novoAutor.dataNascimento
+        this._nacionalidade = novoAutor.nacionalidade
     }
 
-    adicionarAutor() {
-        const autores: Array<any> = JSON.parse(fs.readFileSync("./src/dados/autores.json", "utf-8"));
+    static buscarAutor(): Array<TAutor> {
+        return JSON.parse(fs.readFileSync("./src/dados/autores.json", "utf-8"))
+    }
+
+    adicionarAutor(): void {
+        const autores = Autor.buscarAutor();
 
         if (Autor.buscarAutorPorNome(this._nome)) {
             console.error("Autor já cadastrado")
@@ -25,16 +29,15 @@ export class Autor {
             nacionalidade: this._nacionalidade
         })
         fs.writeFileSync("./src/dados/autores.json", JSON.stringify(autores))
-
     }
 
-    static buscarAutorPorNome(nome: string) {
-        const autores: Array<any> = JSON.parse(fs.readFileSync("./src/dados/autores.json", "utf-8"));
+    static buscarAutorPorNome(nome: string): TAutor | undefined {
+        const autores = Autor.buscarAutor();
         return autores.find(autor => autor.nome === nome)
 
     }
 
-    static listarAutores() {
+    static listarAutores(): void {
         const autores = fs.readFileSync("./src/dados/autores.json", "utf-8")
         console.log(JSON.parse(autores));
     }
