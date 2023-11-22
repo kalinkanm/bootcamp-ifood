@@ -1,3 +1,4 @@
+import { Aluguel } from "./aluguel";
 import { Cliente } from "./cliente";
 import { Veiculo } from "./veiculo";
 
@@ -27,10 +28,10 @@ export class Locadora {
                 this.adicionarCliente();
                 break;
             case "3":
-
+                this.alugarVeiculo();
                 break;
             case "4":
-
+                this.devolverVeiculo();
                 break;
             case "5":
                 this.listarVeiculosDisponiveis();
@@ -39,7 +40,7 @@ export class Locadora {
                 this.listarVeiculosAlugados();
                 break;
             case "7":
-
+                this.faturamento();
                 break;
             case "8":
                 sair = true;
@@ -56,28 +57,6 @@ export class Locadora {
         };
 
     }
-
-
-    // buscarPlaca(placaBuscar: string): boolean {
-    //     if (veiculos.find(veiculo => veiculo.placa === placaBuscar)) {
-    //     return true
-    //     } else {
-    //         return false
-    //     }
-    // }
-
-    // adicionarVeiculo() {
-    //     const placa = 
-    //     if (!this.buscarPlaca(placa)) {
-
-    //         const novoVeiculo = new Veiculo(placa, horaAluguel, tipoVeiculo, modelo)
-    //         veiculos.push(novoVeiculo)
-    //     }
-    //     else { 
-    //         console.error("Placa já cadastrada!")
-    //     }
-
-    // }
 
     adicionarVeiculo() {
         const placa = prompt("Digite a placa do veículo: ");
@@ -112,22 +91,28 @@ export class Locadora {
 
     alugarVeiculo() {
         const cpfCliente = prompt("Digite cpf do cliente: ");
-        const placaVeiculo = prompt("Digite a placa do carro desejado: ");
+        const placaVeiculo = prompt("Digite a placa do veículo desejado: ");
         const nome = prompt("Digite o nome do cliente: ");
-        const tipoCarteira = prompt("Digite o tipo da carteira do cliente: ");
-        const diarias = +(prompt("Digite o número de diárias: "))
+        const tipoCarteira = prompt("Digite o tipo da carteira do cliente: ").toUpperCase();
 
-        // Aluguel.reservarVeiculo();
+        Aluguel.reservarVeiculo(placaVeiculo, cpfCliente, nome, tipoCarteira);
     }
 
     devolverVeiculo() {
-        const cpf = prompt("Digite cpf do cliente: ");
-        const placa = prompt("Digite a placa do carro: ");
+        const cpfCliente = prompt("Digite cpf do cliente: ");
+        const placaVeiculo = prompt("Digite a placa do veículo: ");
 
-        // Aluguel.devolverVeiculo(cpf, placa);
+        Aluguel.devolverVeiculo(cpfCliente, placaVeiculo);
     }
 
     faturamento() {
+        const placaVeiculo = prompt("Digite a placa do veículo: ");
+        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD): "));
+        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD): "));
+
+        Aluguel.faturamento(placaVeiculo, dataInicio, dataFim)
+
+
 
     }
 }
