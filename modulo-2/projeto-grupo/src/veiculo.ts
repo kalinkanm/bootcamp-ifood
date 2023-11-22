@@ -1,14 +1,15 @@
 const fs = require("fs");
+import { Cliente } from "./cliente";
 
 export class Veiculo {
     private _placa: string
     private _reservadoPor: string | null = null
-    private _horaAluguel: number
+    private _valorDiaria: number
     private _tipoVeiculo: string
     private _modelo: string
 
     constructor(novoVeiculo: TVeiculo) {
-        this._horaAluguel = novoVeiculo.horaAluguel
+        this._valorDiaria = novoVeiculo.valorDiaria
         this._placa = novoVeiculo.placa
         this._tipoVeiculo = novoVeiculo.tipoVeiculo
         this._modelo = novoVeiculo.modelo
@@ -63,44 +64,24 @@ export class Veiculo {
         veiculos.push({
             placa: this._placa,
             tipoVeiculo: this._tipoVeiculo,
-            horaAluguel: this._horaAluguel,
+            valorDiaria: this._valorDiaria,
             modelo: this._modelo,
-            reservadoPor: this._reservadoPor
+            reservadoPor: this._reservadoPor = null
         })
         fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
     }
 
-    static listarVeiculos(): void {
-        const veiculos: Array<any> = Veiculo.buscarVeiculos();
-        return console.log(veiculos)
+    static listarVeiculosDisponiveis(): void {
+        const veiculos: Array<TVeiculo> = Veiculo.buscarVeiculos();
+        const veiculosDisponiveis = veiculos.filter(veiculo => veiculo.reservadoPor === null)
+
+        return console.log(veiculosDisponiveis)
     }
+    static listarVeiculosAlugados(): void {
+        const veiculos: Array<TVeiculo> = Veiculo.buscarVeiculos();
+        const veiculosAlugados = veiculos.filter(veiculo => veiculo.reservadoPor !== null)
 
-    // static reservarVeiculo(placa: string, cpfCliente: string): void {
-    //     const livros = Livro.buscarLivros();
-    //     const index = livros.findIndex(livro => livro.titulo === titulo)
-
-    //     if (index < 0) {
-    //         return console.error("Livro não encontrado!")
-    //     } else if (livros[index].reservadoPor) {
-    //         return console.error("Livro já reservado!")
-    //     } else if (!Usuario.buscarUsuarioPorEmail(emailDoUsuario)) {
-    //         return console.error("Usuário não cadastrado!")
-    //     }
-
-    //     livros[index].reservadoPor = emailDoUsuario;
-    //     fs.writeFileSync("./src/dados/livros.json", JSON.stringify(livros))
-    // }
-
-    // static devolverLivro(titulo: string): void {
-    //     const livros = Livro.buscarLivros();
-    //     const index = livros.findIndex(livro => livro.titulo === titulo)
-        
-    //     if (index < 0) {
-    //         return console.error("Livro não encontrado!")
-    //     }
-
-    //     livros[index].reservadoPor = null;
-    //     fs.writeFileSync("./src/dados/livros.json", JSON.stringify(livros))
-    // }
+        return console.log(veiculosAlugados)
+    }
 
 }

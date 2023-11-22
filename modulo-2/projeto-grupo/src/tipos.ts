@@ -2,13 +2,13 @@ type TCliente = {
     cpf: string
     nome: string
     tipoCarteira: string
-    veiculoAlugado: string | null
+    veiculoAlugado?: string | null
 }
 
 type TVeiculo = {
     placa: string
-    horaAluguel: number
+    valorDiaria: number
     tipoVeiculo: string
     modelo: string
-    reservadoPor: string | null
+    reservadoPor?: string | null
 }

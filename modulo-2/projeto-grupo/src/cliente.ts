@@ -24,10 +24,10 @@ export class Cliente {
     static buscarCliente(): Array<TCliente> {
         return JSON.parse(fs.readFileSync("./src/dados/clientes.json", "utf-8"))
     }
+    
     static buscarClientePorCpf(cpf: string): TCliente | undefined {
         const clientes = Cliente.buscarCliente();
-        return clientes.find(cliente => cliente.nome === cpf)
-
+        return clientes.find(cliente => cliente.cpf === cpf)
     }
 
     adicionarCliente(): void {
