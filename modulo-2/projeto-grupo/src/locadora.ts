@@ -60,7 +60,7 @@ export class Locadora {
 
     adicionarVeiculo() {
         const placa = prompt("Digite a placa do veículo: ");
-        const tipoVeiculo = prompt("Digite o tipo de veículo: ");
+        const tipoVeiculo = prompt("Digite o tipo de veículo: ").toLowerCase();
         const modelo = prompt("Digite o modelo: ");
         const horaAluguel = +(prompt("Digite o valor da hora de aluguel: "));
 

@@ -57,15 +57,16 @@ export class Aluguel {
 
     static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
         const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
-        let valorDaDiaria = veiculo?.valorDiaria;
+        if(!veiculo) { return 0; }
+        let valorDaDiaria = veiculo.valorDiaria;
         const diarias = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60 * 24)));
         const acresceCarro = 1.1;
         const acresceMoto = 1.05;
         let valorTotal = 0;
 
-        if (veiculo?.tipoVeiculo === "moto") {
+        if (veiculo.tipoVeiculo === "moto") {
             valorTotal = veiculo.valorDiaria * diarias * acresceMoto;
-        } else if (veiculo?.tipoVeiculo === "carro") {
+        } else if (veiculo.tipoVeiculo === "carro") {
             valorTotal = veiculo.valorDiaria * diarias * acresceCarro;
         }
 
