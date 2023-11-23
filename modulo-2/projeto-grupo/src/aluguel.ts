@@ -20,6 +20,29 @@ export class Aluguel {
         this._tipoCarteiraCliente = novoAluguel.tipoCarteiraCliente
         this._dataInicio = novoAluguel.dataInicio
         this._dataFim = novoAluguel.dataFim
+
+    }
+
+    get cpfCliente(): string {
+        return this.cpfCliente
+    }
+    get placaVeiculo(): string {
+        return this.placaVeiculo
+    }
+    get nomeCliente(): string {
+        return this._nomeCliente
+    }
+    get tipoCarteiraCliente(): string {
+        return this.tipoCarteiraCliente
+    }
+    get dataInicio(): Date {
+        return this.dataInicio
+    }
+    get dataFim(): Date {
+        return this.dataFim
+    }
+    get numeroDaReserva(): number {
+        return this.numeroDaReserva
     }
 
     static buscarAlugueis(): Array<TAluguel> {
@@ -48,36 +71,36 @@ export class Aluguel {
     }
 
     static devolverVeiculo(placaVeiculo: string, cpfCliente: string) {
-    const veiculos = Veiculo.buscarVeiculos();
-    const indexVeiculo = veiculos.findIndex(veiculo => veiculo.placa === placaVeiculo)
-    const clientes = Cliente.buscarCliente();
-    const indexCliente = clientes.findIndex(cliente => cliente.cpf === cpfCliente)
+        const veiculos = Veiculo.buscarVeiculos();
+        const indexVeiculo = veiculos.findIndex(veiculo => veiculo.placa === placaVeiculo)
+        const clientes = Cliente.buscarCliente();
+        const indexCliente = clientes.findIndex(cliente => cliente.cpf === cpfCliente)
 
-    veiculos[indexVeiculo].reservadoPor = null;
-    fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
+        veiculos[indexVeiculo].reservadoPor = null;
+        fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
 
-    clientes[indexCliente].veiculoAlugado = null;
-    fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
+        clientes[indexCliente].veiculoAlugado = null;
+        fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
 
-}
-
-    static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
-    const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
-    if (!veiculo) { return 0; }
-    let valorDaDiaria = veiculo.valorDiaria;
-    const diarias = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60 * 24)));
-    const acresceCarro = 1.1;
-    const acresceMoto = 1.05;
-    let valorTotal = 0;
-
-    if (veiculo.tipoVeiculo === "moto") {
-        valorTotal = veiculo.valorDiaria * diarias * acresceMoto;
-    } else if (veiculo.tipoVeiculo === "carro") {
-        valorTotal = veiculo.valorDiaria * diarias * acresceCarro;
     }
 
-    console.log(`
-        Número de diárias: ${diarias}
+    static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
+        const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
+        if (!veiculo) { return 0; }
+        let valorDaDiaria = veiculo.valorDiaria;
+        const horas = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60)));
+        const acresceCarro = 1.1;
+        const acresceMoto = 1.05;
+        let valorTotal = 0;
+
+        if (veiculo.tipoVeiculo === "moto") {
+            valorTotal = veiculo.valorDiaria * horas * acresceMoto;
+        } else if (veiculo.tipoVeiculo === "carro") {
+            valorTotal = veiculo.valorDiaria * horas * acresceCarro;
+        }
+
+        console.log(`
+        Número de horas: ${horas}
         Valor da diária: ${valorDaDiaria.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
         Acréscimos:
                 Moto = 5%
@@ -87,9 +110,9 @@ export class Aluguel {
         Valor total: ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
         `)
 
-    return valorTotal
+        return valorTotal
 
-}
+    }
 
 
 }

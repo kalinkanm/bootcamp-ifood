@@ -95,8 +95,8 @@ export class Locadora {
         const placaVeiculo = prompt("Digite a placa do veículo desejado: ");
         const nomeCliente = prompt("Digite o nome do cliente: ");
         const tipoCarteiraCliente = prompt("Digite o tipo da carteira do cliente: ").toUpperCase();
-        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD): "));
-        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD): "));
+        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD HH:MM): "));
+        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD HH:MM): "));
 
         const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
         const cliente = Cliente.buscarClientePorCpf(cpfCliente);
@@ -106,13 +106,24 @@ export class Locadora {
             if ((cliente.tipoCarteira === "A" && veiculo.tipoVeiculo === "moto") ||
                 (cliente.tipoCarteira === "B" && veiculo.tipoVeiculo === "carro")) {
 
-                const novoAluguel = new Aluguel({ cpfCliente, placaVeiculo, nomeCliente, tipoCarteiraCliente, dataInicio, dataFim });
+                const aluguelNovo = new Aluguel({ cpfCliente, placaVeiculo, nomeCliente, tipoCarteiraCliente, dataInicio, dataFim });
 
-                alugueis.push(novoAluguel)
+                alugueis.push({
+                    cpfCliente: aluguelNovo.cpfCliente,
+                    placaVeiculo: aluguelNovo.placaVeiculo,
+                    nomeCliente: aluguelNovo.nomeCliente,
+                    tipoCarteiraCliente: aluguelNovo.tipoCarteiraCliente,
+                    dataInicio: aluguelNovo.dataInicio,
+                    dataFim: aluguelNovo.dataFim
+                })
                 fs.writeFileSync("./src/dados/alugueis.json", JSON.stringify(alugueis))
 
                 Aluguel.registrarReserva(placaVeiculo, cpfCliente);
+            } else {
+                console.error("Sua carteira não permite este tipo de veículo!")
             }
+        } else {
+            console.error("Veículo já alugado ou cliente com pendência! ")
         }
     }
 
@@ -125,12 +136,9 @@ export class Locadora {
 
     faturamento() {
         const placaVeiculo = prompt("Digite a placa do veículo: ");
-        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD): "));
-        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD): "));
+        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD HH:MM): "));
+        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD HH:MM): "));
 
         Aluguel.faturamento(placaVeiculo, dataInicio, dataFim)
-
-
-
     }
 }
