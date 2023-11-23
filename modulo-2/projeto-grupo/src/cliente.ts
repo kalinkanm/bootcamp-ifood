@@ -6,10 +6,10 @@ export class Cliente {
     private _tipoCarteira: string
     private _veiculoAlugado: string | null = null
 
-    constructor(cpf: string, nome: string, tipoCarteira: string) {
-        this._cpf = cpf
-        this._nome = nome
-        this._tipoCarteira = tipoCarteira
+    constructor(novoCliente: TCliente) {
+        this._cpf = novoCliente.cpf
+        this._nome = novoCliente.nome
+        this._tipoCarteira = novoCliente.tipoCarteira
 
     }
 

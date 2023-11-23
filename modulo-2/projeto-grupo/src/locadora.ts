@@ -3,6 +3,7 @@ import { Cliente } from "./cliente";
 import { Veiculo } from "./veiculo";
 
 const prompt = require("prompt-sync")();
+const fs = require("fs");
 
 export class Locadora {
     menu() {
@@ -75,7 +76,7 @@ export class Locadora {
         const nome = prompt("Digite o nome do cliente: ")
         const tipoCarteira = prompt("Digite o tipo de carteira: ").toUpperCase()
 
-        const novoCliente = new Cliente(cpf, nome, tipoCarteira);
+        const novoCliente = new Cliente({ cpf, nome, tipoCarteira });
 
         novoCliente.adicionarCliente()
 
@@ -92,10 +93,27 @@ export class Locadora {
     alugarVeiculo() {
         const cpfCliente = prompt("Digite cpf do cliente: ");
         const placaVeiculo = prompt("Digite a placa do veículo desejado: ");
-        const nome = prompt("Digite o nome do cliente: ");
-        const tipoCarteira = prompt("Digite o tipo da carteira do cliente: ").toUpperCase();
+        const nomeCliente = prompt("Digite o nome do cliente: ");
+        const tipoCarteiraCliente = prompt("Digite o tipo da carteira do cliente: ").toUpperCase();
+        const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD): "));
+        const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD): "));
 
-        Aluguel.reservarVeiculo(placaVeiculo, cpfCliente, nome, tipoCarteira);
+        const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
+        const cliente = Cliente.buscarClientePorCpf(cpfCliente);
+        const alugueis = Aluguel.buscarAlugueis();
+
+        if (veiculo?.reservadoPor === null && cliente?.veiculoAlugado === null) {
+            if ((cliente.tipoCarteira === "A" && veiculo.tipoVeiculo === "moto") ||
+                (cliente.tipoCarteira === "B" && veiculo.tipoVeiculo === "carro")) {
+
+                const novoAluguel = new Aluguel({ cpfCliente, placaVeiculo, nomeCliente, tipoCarteiraCliente, dataInicio, dataFim });
+
+                alugueis.push(novoAluguel)
+                fs.writeFileSync("./src/dados/alugueis.json", JSON.stringify(alugueis))
+
+                Aluguel.registrarReserva(placaVeiculo, cpfCliente);
+            }
+        }
     }
 
     devolverVeiculo() {
