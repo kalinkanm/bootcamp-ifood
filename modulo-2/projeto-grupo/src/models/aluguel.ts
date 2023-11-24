@@ -23,28 +23,6 @@ export class Aluguel {
 
     }
 
-    // get cpfCliente(): string {
-    //     return this.cpfCliente
-    // }
-    // get placaVeiculo(): string {
-    //     return this.placaVeiculo
-    // }
-    // get nomeCliente(): string {
-    //     return this._nomeCliente
-    // }
-    // get tipoCarteiraCliente(): string {
-    //     return this.tipoCarteiraCliente
-    // }
-    // get dataInicio(): Date {
-    //     return this.dataInicio
-    // }
-    // get dataFim(): Date {
-    //     return this.dataFim
-    // }
-    // get numeroDaReserva(): number {
-    //     return this.numeroDaReserva
-    // }
-
     static buscarAlugueis(): Array<TAluguel> {
         return JSON.parse(fs.readFileSync("./src/dados/alugueis.json", "utf-8"))
     }
@@ -52,6 +30,10 @@ export class Aluguel {
     static buscarAluguelPorNumeroDaReserva(numeroDaReserva: number): TAluguel | undefined {
         const alugueis = Aluguel.buscarAlugueis();
         return alugueis.find(aluguel => aluguel.numeroDaReserva === numeroDaReserva)
+    }
+    static buscarAluguelPorCpf(cpf: string): TAluguel | undefined {
+        const alugueis = Aluguel.buscarAlugueis();
+        return alugueis.find(aluguel => aluguel.cpfCliente === cpf)
     }
 
     static alugarVeiculo(cpfCliente: string, placaVeiculo: string, nomeCliente: string, tipoCarteiraCliente: string, dataInicio: Date, dataFim: Date): void {
@@ -106,47 +88,99 @@ export class Aluguel {
         const indexVeiculo = veiculos.findIndex(veiculo => veiculo.placa === placaVeiculo)
         const clientes = Cliente.buscarCliente();
         const indexCliente = clientes.findIndex(cliente => cliente.cpf === cpfCliente)
+        const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo)
+        const cliente = Cliente.buscarClientePorCpf(cpfCliente)
         
-        veiculos[indexVeiculo].reservadoPor = null;
-        fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
+        if(veiculo && cliente) {
+            veiculo.reservadoPor = null
+            veiculos.splice(indexVeiculo, 1, veiculo)
+            fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
+            cliente.veiculoAlugado = null
+            clientes.splice(indexCliente, 1, cliente)
+            fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
 
-        clientes[indexCliente].veiculoAlugado = null;
-        fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
-
-        console.log("Operação concluída!")
-
-    }
-
-    static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
-        const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
-        if (!veiculo) { 
-            console.error("Veículo não encontrado!")
-            return 0; }
-        let valorHoraAluguel = veiculo.valorHora;
-        const horasAlugadas = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60)));
-        const acresceCarro = 1.1;
-        const acresceMoto = 1.05;
-        let valorTotal = 0;
-
-        if (veiculo.tipoVeiculo === "moto") {
-            valorTotal = veiculo.valorHora * horasAlugadas * acresceMoto;
-        } else if (veiculo.tipoVeiculo === "carro") {
-            valorTotal = veiculo.valorHora * horasAlugadas * acresceCarro;
+            console.log('Operação concluída!');
+            
+        } else {
+            console.error('Veiculo e/ou cliente não existe.');
         }
-
-        console.log(`
-        Número de horas alugadas: ${horasAlugadas}
-        Valor da hora de aluguel: ${valorHoraAluguel.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-        Acréscimos:
-                Moto = 5%
-                Carro = 10%
-
-    ************************************
-
-        Valor total: ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-        `)
-
-        return valorTotal
+        
     }
+
+    // static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
+        
+    //     const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
+    //     if (!veiculo) { 
+    //         console.error("Veículo não encontrado!")
+    //         return 0; }
+    //     let valorHoraAluguel = veiculo.valorHora;
+    //     const horasAlugadas = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60)));
+    //     const acresceCarro = 1.1;
+    //     const acresceMoto = 1.05;
+    //     let valorTotal = 0;
+
+    //     if (veiculo.tipoVeiculo === "moto") {
+    //         valorTotal = veiculo.valorHora * horasAlugadas * acresceMoto;
+    //     } else if (veiculo.tipoVeiculo === "carro") {
+    //         valorTotal = veiculo.valorHora * horasAlugadas * acresceCarro;
+    //     }
+
+    //     console.log(`
+    //     Número de horas alugadas: ${horasAlugadas}
+    //     Valor da hora de aluguel: ${valorHoraAluguel.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+    //     Acréscimos:
+    //             Moto = 5%
+    //             Carro = 10%
+
+    // ************************************
+
+    //     Valor total: ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+    //     `)
+
+    //     return valorTotal
+    // }
+
+     static faturamento(cpf : string) {
+        const aluguel = this.buscarAluguelPorCpf(cpf)
+        
+        if(aluguel) {
+            const veiculo = Veiculo.buscarVeiculoPorPlaca(aluguel.placaVeiculo)
+            if(veiculo) {
+            const valor = veiculo?.valorHora
+            const dtInicio = new Date(aluguel.dataInicio)
+            console.log(dtInicio);
+            
+            const dataFim = new Date(aluguel.dataFim)
+
+            console.log(dataFim);
+            
+            const horasAlugadas = Math.floor(((dataFim.getTime() - dtInicio.getTime()) / (1000 * 60 * 60)));
+            const acresceCarro = 1.1;
+            const acresceMoto = 1.05;
+            let valorTotal = 0;
+
+            if (veiculo.tipoVeiculo === "moto") {
+                valorTotal = veiculo.valorHora * horasAlugadas * acresceMoto;
+            } else if (veiculo.tipoVeiculo === "carro") {
+                valorTotal = veiculo.valorHora * horasAlugadas * acresceCarro;
+            }
+
+            console.log(`
+            Número de horas alugadas: ${horasAlugadas}
+            Valor da hora de aluguel: ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            Acréscimos:
+                    Moto = 5%
+                    Carro = 10%
+
+        ************************************
+
+            Valor total: ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            `)
+
+            return valorTotal
+            }
+        }
+        
+     }
 
 }

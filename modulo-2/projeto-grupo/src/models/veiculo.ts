@@ -15,42 +15,17 @@ export class Veiculo {
         this._modelo = novoVeiculo.modelo
     }
 
-    // get placa() {
-    //     return this._placa
-    // }
-
-    // get reservado() {
-    //     return this._reservado
-    // }
-
-    // get horaAluguel() {
-    //     return this._horaAluguel
-    // }
-
-    // get tipoVeiculo() {
-    //     return this._tipoVeiculo
-    // }
-
-    // get modelo() {
-    //     return this._modelo
-    // }
-
-    // set horaAluguel(horaAluguel: number) {
-    //     this._horaAluguel = horaAluguel
-    // }
-
-    // set reservado(reservado: boolean) {
-    //     this._reservado = reservado
-    // }
-
-
     static buscarVeiculos(): Array<TVeiculo> {
         return JSON.parse(fs.readFileSync("./src/dados/veiculos.json", "utf-8"));
     }
     
     static buscarVeiculoPorPlaca(placa: string): TVeiculo | undefined {
         const veiculos = Veiculo.buscarVeiculos();
-        return veiculos.find(veiculo => veiculo.placa === placa)
+        const veiculo = veiculos.find(veiculo => veiculo.placa === placa)
+
+        if(veiculo) {
+            return veiculo
+        }
     }
 
     adicionarVeiculo(): void {
