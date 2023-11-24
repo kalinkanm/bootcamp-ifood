@@ -150,14 +150,6 @@ Digite 2 para habilitação tipo B: `);
         Aluguel.devolverVeiculo(placaVeiculo, cpfCliente);
     }
 
-    // faturamento() {
-    //     const placaVeiculo = prompt("Digite a placa do veículo: ").toUpperCase();
-    //     const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD HH:MM): "));
-    //     const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD HH:MM): "));
-
-    //     Aluguel.faturamento(placaVeiculo, dataInicio, dataFim)
-    // }
-
     faturamento() {
         const cpf = prompt("Digite o cpf do cliente: ")
         Aluguel.faturamento(cpf)

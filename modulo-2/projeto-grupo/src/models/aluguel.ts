@@ -107,39 +107,6 @@ export class Aluguel {
         
     }
 
-    // static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {
-        
-    //     const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo);
-    //     if (!veiculo) { 
-    //         console.error("Veículo não encontrado!")
-    //         return 0; }
-    //     let valorHoraAluguel = veiculo.valorHora;
-    //     const horasAlugadas = Math.floor(((dataFim.getTime() - dataInicio.getTime()) / (1000 * 60 * 60)));
-    //     const acresceCarro = 1.1;
-    //     const acresceMoto = 1.05;
-    //     let valorTotal = 0;
-
-    //     if (veiculo.tipoVeiculo === "moto") {
-    //         valorTotal = veiculo.valorHora * horasAlugadas * acresceMoto;
-    //     } else if (veiculo.tipoVeiculo === "carro") {
-    //         valorTotal = veiculo.valorHora * horasAlugadas * acresceCarro;
-    //     }
-
-    //     console.log(`
-    //     Número de horas alugadas: ${horasAlugadas}
-    //     Valor da hora de aluguel: ${valorHoraAluguel.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-    //     Acréscimos:
-    //             Moto = 5%
-    //             Carro = 10%
-
-    // ************************************
-
-    //     Valor total: ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-    //     `)
-
-    //     return valorTotal
-    // }
-
      static faturamento(cpf : string) {
         const aluguel = this.buscarAluguelPorCpf(cpf)
         
@@ -148,12 +115,7 @@ export class Aluguel {
             if(veiculo) {
             const valor = veiculo?.valorHora
             const dtInicio = new Date(aluguel.dataInicio)
-            console.log(dtInicio);
-            
             const dataFim = new Date(aluguel.dataFim)
-
-            console.log(dataFim);
-            
             const horasAlugadas = Math.floor(((dataFim.getTime() - dtInicio.getTime()) / (1000 * 60 * 60)));
             const acresceCarro = 1.1;
             const acresceMoto = 1.05;
