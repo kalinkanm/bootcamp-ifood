@@ -4,12 +4,12 @@ import { Cliente } from "./cliente";
 export class Veiculo {
     private _placa: string
     private _reservadoPor: string | null = null
-    private _valorDiaria: number
+    private _horaAluguel: number
     private _tipoVeiculo: string
     private _modelo: string
 
     constructor(novoVeiculo: TVeiculo) {
-        this._valorDiaria = novoVeiculo.valorDiaria
+        this._horaAluguel = novoVeiculo.valorHora
         this._placa = novoVeiculo.placa
         this._tipoVeiculo = novoVeiculo.tipoVeiculo
         this._modelo = novoVeiculo.modelo
@@ -64,7 +64,7 @@ export class Veiculo {
         veiculos.push({
             placa: this._placa,
             tipoVeiculo: this._tipoVeiculo,
-            valorDiaria: this._valorDiaria,
+            valorHora: this._horaAluguel,
             modelo: this._modelo,
             reservadoPor: this._reservadoPor = null
         })

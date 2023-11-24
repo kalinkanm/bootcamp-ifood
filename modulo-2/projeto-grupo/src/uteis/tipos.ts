@@ -7,7 +7,7 @@ type TCliente = {
 
 type TVeiculo = {
     placa: string
-    valorDiaria: number
+    valorHora: number
     tipoVeiculo: string
     modelo: string
     reservadoPor?: string | null

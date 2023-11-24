@@ -17,7 +17,7 @@ class IdGenerator {
 
   private loadLastId(): number {
     try {
-      const data = fs.readFileSync('ids.json', 'utf-8');
+      const data = fs.readFileSync('./src/dados/ids.json', 'utf-8');
       const jsonData = JSON.parse(data);
       return jsonData.lastId || 0;
     } catch (error) {
@@ -27,7 +27,7 @@ class IdGenerator {
 
   private saveLastId(): void {
     const data = { lastId : this.lastId };
-    fs.writeFileSync('ids.json', JSON.stringify(data, null, 2), 'utf-8');
+    fs.writeFileSync('./src/dados/ids.json', JSON.stringify(data, null, 2), 'utf-8');
   }
 
   getNextId(): number {

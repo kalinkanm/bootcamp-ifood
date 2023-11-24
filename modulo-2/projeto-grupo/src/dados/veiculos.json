@@ -1,1 +1,1 @@
-[{"placa":"abc123","tipoVeiculo":"carro","valorDiaria":10,"modelo":"uno","reservadoPor":null}]
+[{"placa":"AAA1111","tipoVeiculo":"carro","valorHora":15,"modelo":"Jeep Renegade","reservadoPor":null},{"placa":"BBB2222","tipoVeiculo":"moto","valorHora":6,"modelo":"Honda CG","reservadoPor":"22222222222"},{"placa":"CCC3333","tipoVeiculo":"carro","valorHora":10,"modelo":"Hyundai HB20","reservadoPor":null},{"placa":"DDD4444","tipoVeiculo":"moto","valorHora":4,"modelo":"Biz","reservadoPor":"44444444444"}]
