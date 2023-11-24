@@ -1,1 +1,72 @@
-[{"placa":"AAA1111","tipoVeiculo":"carro","valorHora":15,"modelo":"Jeep Renegade","reservadoPor":"11111111111"},{"placa":"BBB2222","tipoVeiculo":"moto","valorHora":6,"modelo":"Honda CG","reservadoPor":"22222222222"},{"placa":"CCC3333","tipoVeiculo":"carro","valorHora":10,"modelo":"Hyundai HB20","reservadoPor":null},{"placa":"DDD4444","tipoVeiculo":"moto","valorHora":4,"modelo":"Biz","reservadoPor":"44444444444"},{"placa":"EEE5555","tipoVeiculo":"carro","valorHora":20,"modelo":"BYD Dolphin","reservadoPor":null},{"placa":"FFF6666","tipoVeiculo":"moto","valorHora":8,"modelo":"Voltz EVS","reservadoPor":null},{"placa":"GGG7777","tipoVeiculo":"carro","valorHora":20,"modelo":"Mini Cooper SE","reservadoPor":null},{"placa":"CDE1234","tipoVeiculo":"moto","valorHora":1,"modelo":"CG","reservadoPor":null}]
+[
+    {
+        "placa": "AAA1111",
+        "tipoVeiculo": "carro",
+        "valorHora": 15,
+        "modelo": "Jeep Renegade",
+        "reservadoPor": "11111111111"
+    },
+    {
+        "placa": "BBB2222",
+        "tipoVeiculo": "moto",
+        "valorHora": 6,
+        "modelo": "Honda CG",
+        "reservadoPor": "22222222222"
+    },
+    {
+        "placa": "CCC3333",
+        "tipoVeiculo": "carro",
+        "valorHora": 10,
+        "modelo": "Hyundai HB20",
+        "reservadoPor": null
+    },
+    {
+        "placa": "DDD4444",
+        "tipoVeiculo": "moto",
+        "valorHora": 4,
+        "modelo": "Biz",
+        "reservadoPor": "44444444444"
+    },
+    {
+        "placa": "EEE5555",
+        "tipoVeiculo": "carro",
+        "valorHora": 20,
+        "modelo": "BYD Dolphin",
+        "reservadoPor": null
+    },
+    {
+        "placa": "FFF6666",
+        "tipoVeiculo": "moto",
+        "valorHora": 8,
+        "modelo": "Voltz EVS",
+        "reservadoPor": null
+    },
+    {
+        "placa": "GGG7777",
+        "tipoVeiculo": "carro",
+        "valorHora": 20,
+        "modelo": "Mini Cooper SE",
+        "reservadoPor": null
+    },
+    {
+        "placa": "CDE1234",
+        "tipoVeiculo": "moto",
+        "valorHora": 1,
+        "modelo": "CG",
+        "reservadoPor": "12345678910"
+    },
+    {
+        "placa": "12345",
+        "tipoVeiculo": "moto",
+        "valorHora": 1,
+        "modelo": "CG",
+        "reservadoPor": "12345678911"
+    },
+    {
+        "placa": "ABC9876",
+        "tipoVeiculo": "moto",
+        "valorHora": 1,
+        "modelo": "CG",
+        "reservadoPor": "0987654321"
+    }
+]
