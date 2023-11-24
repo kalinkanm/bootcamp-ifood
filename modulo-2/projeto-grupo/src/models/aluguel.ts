@@ -23,28 +23,6 @@ export class Aluguel {
 
     }
 
-    // get cpfCliente(): string {
-    //     return this.cpfCliente
-    // }
-    // get placaVeiculo(): string {
-    //     return this.placaVeiculo
-    // }
-    // get nomeCliente(): string {
-    //     return this._nomeCliente
-    // }
-    // get tipoCarteiraCliente(): string {
-    //     return this.tipoCarteiraCliente
-    // }
-    // get dataInicio(): Date {
-    //     return this.dataInicio
-    // }
-    // get dataFim(): Date {
-    //     return this.dataFim
-    // }
-    // get numeroDaReserva(): number {
-    //     return this.numeroDaReserva
-    // }
-
     static buscarAlugueis(): Array<TAluguel> {
         return JSON.parse(fs.readFileSync("./src/dados/alugueis.json", "utf-8"))
     }
@@ -106,15 +84,23 @@ export class Aluguel {
         const indexVeiculo = veiculos.findIndex(veiculo => veiculo.placa === placaVeiculo)
         const clientes = Cliente.buscarCliente();
         const indexCliente = clientes.findIndex(cliente => cliente.cpf === cpfCliente)
+        const veiculo = Veiculo.buscarVeiculoPorPlaca(placaVeiculo)
+        const cliente = Cliente.buscarClientePorCpf(cpfCliente)
         
-        veiculos[indexVeiculo].reservadoPor = null;
-        fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
+        if(veiculo && cliente) {
+            veiculo.reservadoPor = null
+            veiculos.splice(indexVeiculo, 1, veiculo)
+            fs.writeFileSync("./src/dados/veiculos.json", JSON.stringify(veiculos))
+            cliente.veiculoAlugado = null
+            clientes.splice(indexCliente, 1, cliente)
+            fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
 
-        clientes[indexCliente].veiculoAlugado = null;
-        fs.writeFileSync("./src/dados/clientes.json", JSON.stringify(clientes))
-
-        console.log("Operação concluída!")
-
+            console.log('Operação concluída!');
+            
+        } else {
+            console.error('Veiculo e/ou cliente não existe.');
+        }
+        
     }
 
     static faturamento(placaVeiculo: string, dataInicio: Date, dataFim: Date): number {

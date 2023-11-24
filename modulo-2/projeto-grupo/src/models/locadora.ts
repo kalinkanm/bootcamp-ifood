@@ -45,6 +45,8 @@ export class Locadora {
                 break;
             case "8":
                 sair = true;
+                console.log("Obrigado por utilizar nossos serviços, até mais!");
+                
                 break;
             default:
                 console.log("Digite uma opção válida!")
@@ -59,8 +61,6 @@ export class Locadora {
 
     }
 
-// Fiz o switch, porém tive que dar um log antes pois o terminal bagunça se entrar com as informações diretamente no prompt
-    // Mensagem de sucesso adicionado
     adicionarVeiculo() {
         const placa = prompt("Digite a placa do veículo: ").toUpperCase();
         console.log(`
@@ -68,7 +68,7 @@ Tipo de Veículo:
 Digite 1 se o tipo do Veículo for uma moto OU 
 Digite 2 se o tipo do Veículo for um carro: `);
         
-        let tipoVeiculo = prompt("").toLowerCase();
+        let tipoVeiculo = prompt('').toLowerCase()
         switch (tipoVeiculo) {
             case "1":
                 tipoVeiculo = "moto";
@@ -89,8 +89,6 @@ Digite 2 se o tipo do Veículo for um carro: `);
         console.log(`\nVeículo ${modelo} de placa ${placa} adicionado com sucesso!\n`);
     }
 
-    // Fiz o switch, porém tive que dar um log antes pois o terminal bagunça se entrar com as informações diretamente no prompt
-    // Mensagem de sucesso adicionado
     adicionarCliente() {
         const cpf = prompt("Digite o CPF do cliente: ")
         const nome = prompt("Digite o nome do cliente: ")
@@ -98,7 +96,7 @@ Digite 2 se o tipo do Veículo for um carro: `);
 Tipo de carteira:
 Digite 1 para habilitação tipo A OU
 Digite 2 para habilitação tipo B: `);
-        let tipoCarteira = prompt("").toUpperCase()
+        let tipoCarteira = prompt('').toUpperCase()
         switch (tipoCarteira) {
             case "1":
                 tipoCarteira = "A";
@@ -125,27 +123,26 @@ Digite 2 para habilitação tipo B: `);
         Veiculo.listarVeiculosAlugados()
     }
 
-    //Feita a validação de CPF antes de concluir o aluguel do veículo.
     alugarVeiculo() {
         const cpfCliente = prompt("Digite cpf do cliente: ");
-
+        const placaVeiculo = prompt("Digite a placa do veículo desejado: ").toUpperCase();
+        const veiculoEncontrado = Veiculo.buscarVeiculoPorPlaca(placaVeiculo)
         const clienteEncontrado = Cliente.buscarClientePorCpf(cpfCliente)
-        if (clienteEncontrado) {
 
-            const placaVeiculo = prompt("Digite a placa do veículo desejado: ").toUpperCase();
-            const nomeCliente = prompt("Digite o nome do cliente: ");
-            const tipoCarteiraCliente = prompt("Digite o tipo da carteira do cliente: ").toUpperCase();
+        if (clienteEncontrado && veiculoEncontrado) {
+
+            const nomeCliente = clienteEncontrado.nome
+            const tipoCarteiraCliente = clienteEncontrado.tipoCarteira
             const dataInicio = new Date(prompt("Digite a data de retirada do veículo (AAAA/MM/DD HH:MM): "));
             const dataFim = new Date(prompt("Digite a data de devolução do veículo (AAAA/MM/DD HH:MM): "));
             
             Aluguel.alugarVeiculo(cpfCliente, placaVeiculo, nomeCliente, tipoCarteiraCliente, dataInicio, dataFim)
+        } else {
+            console.error('Cliente ou veículo não encontrado.');
             
-        } else{
-            console.log("CPF não existe no nosso Banco de Dados. Digite um CPF válido!");
-            this.alugarVeiculo();
+            this.alugarVeiculo()
         }
     }
-
     devolverVeiculo() {
         const cpfCliente = prompt("Digite cpf do cliente: ");
         const placaVeiculo = prompt("Digite a placa do veículo: ").toUpperCase();
